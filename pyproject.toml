@@ -3,8 +3,13 @@ name = "authkit"
 version = "0.1.0"
 description = "A standalone authentication microservice"
 readme = "README.md"
-requires-python = ">=3.14"
+requires-python = ">=3.11,<3.14"
 dependencies = [
+    "alembic>=1.18.4",
+    "asyncpg>=0.31.0",
     "fastapi>=0.136.1",
+    "pydantic-settings>=2.14.1",
+    "python-dotenv>=1.2.2",
+    "sqlalchemy>=2.0.49",
     "uvicorn>=0.47.0",
 ]
