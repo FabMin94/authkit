@@ -1,12 +1,15 @@
-from pydantic import BaseModel, EmailStr
-from uuid import UUID
 from datetime import datetime
+from uuid import UUID
+
+from pydantic import BaseModel, EmailStr
 
 # --- Request schemas (what the client sends) ---
+
 
 class UserRegister(BaseModel):
     email: EmailStr
     password: str
+
 
 class UserLogin(BaseModel):
     email: EmailStr
@@ -14,6 +17,7 @@ class UserLogin(BaseModel):
 
 
 # --- Response schemas (what the API returns) ---
+
 
 class UserResponse(BaseModel):
     id: UUID
@@ -23,6 +27,7 @@ class UserResponse(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
 
 class TokenResponse(BaseModel):
     access_token: str

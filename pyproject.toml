@@ -22,4 +22,23 @@ dev = [
     "httpx>=0.28.1",
     "pytest>=9.0.3",
     "pytest-asyncio>=1.3.0",
+    "ruff>=0.15.14",
 ]
+
+[tool.ruff]
+line-length=88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",    # flake8-bugbear
+    "UP",  # pyupgrade
+]
+ignore = ["B008"]   # ignore "do not perform function call in default arguments" (FastAPI uses this pattern)
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101"]   # allow assert statements in tests

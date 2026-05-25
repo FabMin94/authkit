@@ -13,8 +13,8 @@ bearer_scheme = HTTPBearer(auto_error=False)
 
 
 async def get_current_user(
-        credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
-        db: AsyncSession = Depends(get_db)
+    credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
+    db: AsyncSession = Depends(get_db),
 ) -> User:
     unauthorized = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -24,19 +24,19 @@ async def get_current_user(
 
     if not credentials:
         raise unauthorized
-    
+
     email = decode_access_token(credentials.credentials)
     if not email:
         raise unauthorized
-    
+
     user = await get_user_by_email(db, email)
     if not user:
         raise unauthorized
-    
+
     if not user.is_active:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Account is inactive",
         )
-    
+
     return user

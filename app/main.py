@@ -2,9 +2,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 
-from app.db.base import Base, engine
-from app.models import user   # noqa: F401 - import so SQLAlchemy sees the model
 from app.api.v1.auth import router as auth_router
+from app.db.base import Base, engine
+from app.models import user  # noqa: F401 - import so SQLAlchemy sees the model
 
 
 @asynccontextmanager
@@ -25,6 +25,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_router, prefix="/api/v1")
+
 
 @app.get("/health")
 def health_check():

@@ -1,13 +1,14 @@
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.core.security import hash_password, verify_password
 from app.models.user import User
 from app.schemas.user import UserRegister
-from app.core.security import hash_password, verify_password
 
 
 class UserAlreadyExistsError(Exception):
     pass
+
 
 class InvalidCredentialsError(Exception):
     pass
@@ -15,9 +16,7 @@ class InvalidCredentialsError(Exception):
 
 async def create_user(db: AsyncSession, data: UserRegister) -> User:
     # Check if email already exists
-    result = await db.execute(
-        select(User).where(User.email == data.email)
-    )
+    result = await db.execute(select(User).where(User.email == data.email))
     existing = result.scalar_one_or_none()
 
     if existing:
@@ -44,8 +43,8 @@ async def authenticate_user(db: AsyncSession, email: str, password: str) -> User
 
     if not user or not verify_password(password, user.hashed_password):
         raise InvalidCredentialsError("Invalid email or password")
-    
+
     if not user.is_active:
         raise InvalidCredentialsError("Account is inactive")
-    
+
     return user
