@@ -16,7 +16,6 @@ build/
 
 # VS Code
 .vscode/
-request.http
 
 # OS
 .DS_Store
